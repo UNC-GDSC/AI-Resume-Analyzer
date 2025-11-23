@@ -8,7 +8,8 @@ from contextlib import asynccontextmanager
 from app.core.config import settings
 from app.core.logging import app_logger
 from app.database import init_db
-from app.api.v1 import auth, jobs, resumes, rankings
+from app.api.v1 import auth, jobs, resumes, rankings, analytics, batch
+from app.middleware.rate_limit import RateLimitMiddleware
 import time
 
 
@@ -52,6 +53,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Add rate limiting middleware
+app.add_middleware(RateLimitMiddleware)
+
 
 # Request timing middleware
 @app.middleware("http")
@@ -90,6 +94,8 @@ app.include_router(auth.router, prefix="/api/v1")
 app.include_router(jobs.router, prefix="/api/v1")
 app.include_router(resumes.router, prefix="/api/v1")
 app.include_router(rankings.router, prefix="/api/v1")
+app.include_router(analytics.router, prefix="/api/v1")
+app.include_router(batch.router, prefix="/api/v1")
 
 
 # Health check endpoint
