@@ -8,7 +8,7 @@ from contextlib import asynccontextmanager
 from app.core.config import settings
 from app.core.logging import app_logger
 from app.database import init_db
-from app.api.v1 import auth, jobs, resumes, rankings, analytics, batch, interview, search, diversity
+from app.api.v1 import auth, jobs, resumes, rankings, analytics, batch, interview, search, diversity, ml, candidate_portal, audit
 from app.middleware.rate_limit import RateLimitMiddleware
 from app.websocket import router as websocket_router
 import time
@@ -100,6 +100,9 @@ app.include_router(batch.router, prefix="/api/v1")
 app.include_router(interview.router, prefix="/api/v1")
 app.include_router(search.router, prefix="/api/v1")
 app.include_router(diversity.router, prefix="/api/v1")
+app.include_router(ml.router, prefix="/api/v1/ml", tags=["Machine Learning"])
+app.include_router(candidate_portal.router, prefix="/api/v1/candidate", tags=["Candidate Portal"])
+app.include_router(audit.router, prefix="/api/v1/audit", tags=["Audit Logs"])
 app.include_router(websocket_router)
 
 
