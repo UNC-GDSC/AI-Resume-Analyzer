@@ -8,8 +8,9 @@ from contextlib import asynccontextmanager
 from app.core.config import settings
 from app.core.logging import app_logger
 from app.database import init_db
-from app.api.v1 import auth, jobs, resumes, rankings, analytics, batch
+from app.api.v1 import auth, jobs, resumes, rankings, analytics, batch, interview, search, diversity
 from app.middleware.rate_limit import RateLimitMiddleware
+from app.websocket import router as websocket_router
 import time
 
 
@@ -96,6 +97,10 @@ app.include_router(resumes.router, prefix="/api/v1")
 app.include_router(rankings.router, prefix="/api/v1")
 app.include_router(analytics.router, prefix="/api/v1")
 app.include_router(batch.router, prefix="/api/v1")
+app.include_router(interview.router, prefix="/api/v1")
+app.include_router(search.router, prefix="/api/v1")
+app.include_router(diversity.router, prefix="/api/v1")
+app.include_router(websocket_router)
 
 
 # Health check endpoint
